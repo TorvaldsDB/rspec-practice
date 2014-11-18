@@ -211,8 +211,14 @@ describe ContactsController do
       it "deletes the contact" do
         contact
         expect{
+<<<<<<< HEAD
           delete :destroy, id: contact
         }.to change(Contact,:count).by(-1)
+=======
+          post :create,
+            contact: attributes_for(:invalid_contact)
+        }.not_to change(Contact, :count)
+>>>>>>> Use not_to for consistency with book and RSpec documentation
       end
 
       it "redirects to contacts#index" do
@@ -236,17 +242,15 @@ describe ContactsController do
       allow(controller).to receive(:current_user).and_return(user)
     end
 
-    it_behaves_like 'public access to contacts'
-    it_behaves_like 'full access to contacts'
-  end
-
-  describe "guest access" do
-    it_behaves_like 'public access to contacts'
-
-    describe 'GET #new' do
-      it "requires login" do
-        get :new
-        expect(response).to require_login
+    context "with invalid attributes" do
+      it "does not change the contact's attributes" do
+        patch :update, id: @contact,
+          contact: attributes_for(:contact,
+            firstname: 'Larry',
+            lastname: nil)
+        @contact.reload
+        expect(@contact.firstname).not_to eq('Larry')
+        expect(@contact.lastname).to eq('Smith')
       end
     end
 
