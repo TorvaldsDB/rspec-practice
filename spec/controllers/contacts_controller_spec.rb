@@ -211,14 +211,9 @@ describe ContactsController do
       it "deletes the contact" do
         contact
         expect{
-<<<<<<< HEAD
-          delete :destroy, id: contact
-        }.to change(Contact,:count).by(-1)
-=======
           post :create,
             contact: attributes_for(:invalid_contact)
         }.not_to change(Contact, :count)
->>>>>>> Use not_to for consistency with book and RSpec documentation
       end
 
       it "redirects to contacts#index" do
