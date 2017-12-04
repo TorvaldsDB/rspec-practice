@@ -13,7 +13,10 @@
 
 ActiveRecord::Schema.define(version: 20140916022631) do
 
-  create_table "contacts", force: true do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "contacts", force: :cascade do |t|
     t.string   "firstname"
     t.string   "lastname"
     t.string   "email"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 20140916022631) do
     t.datetime "updated_at"
   end
 
-  create_table "news_releases", force: true do |t|
+  create_table "news_releases", force: :cascade do |t|
     t.string   "title"
     t.date     "released_on"
     t.text     "body"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 20140916022631) do
     t.datetime "updated_at"
   end
 
-  create_table "phones", force: true do |t|
+  create_table "phones", force: :cascade do |t|
     t.integer  "contact_id"
     t.string   "phone"
     t.string   "phone_type"
@@ -37,9 +40,9 @@ ActiveRecord::Schema.define(version: 20140916022631) do
     t.datetime "updated_at"
   end
 
-  add_index "phones", ["contact_id"], name: "index_phones_on_contact_id"
+  add_index "phones", ["contact_id"], name: "index_phones_on_contact_id", using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "password_digest"
     t.datetime "created_at"
